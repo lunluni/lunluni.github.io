@@ -5,20 +5,73 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>李总吃什么</title>
+  <title>今天吃什么</title>
   <style>
+    .time-display {
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      color: #2c3e50;
+      margin: 1rem 0;
+    }
+
+    .refresh-btn {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
     .wrapper {
-      position: absolute;
-      top: 33vh;
-      left: 38vw;
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      text-align: center;
     }
 
     .im {
-      width: 100vw;
-      margin-top: 10vh;
+      width: 100%;
+      max-height: 50vh;
+      object-fit: cover;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (max-width: 768px) {
+      .wrapper {
+        padding: 1rem;
+      }
+
+      .im {
+        max-height: 30vh;
+      }
     }
   </style>
 </head>
@@ -26,22 +79,42 @@
 <body>
 
   <img class="im"
-    src="https://bpic.588ku.com/back_water_img/19/04/16/eb4e21a31315056743198fd76d8fb625.jpg!/fw/750/quality/99/unsharp/true/compress/true"
-    alt="">
+    src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    alt="美食背景">
   <div class="wrapper">
-    <h3>李总今天吃什么</h3>
+    <div id="current-time" class="time-display"></div>
+    <h3>今天吃什么</h3>
     <h1><span id="one">???</span></h1>
-<input type="button" onclick="javascript:location.reload();" value="刷新当前页面">
+    <button class="refresh-btn" onclick="javascript:location.reload();">✨ 随机选择</button>
 
   </div>
   <script>
 
     // 1. 声明数组
-    const personArr = ['螺蛳粉', '麻辣香锅', '猪脚饭', '牛肉面', '盖浇饭', '盒饭', '土豆粉', '包子', '肉夹馍', '安徽板面', '炸酱面', '炸鸡', '汉堡', '不吃', '西瓜', '蓝莓', '菠萝', '火鸡面', '衢州鸭头', '寿司', '黄焖鸡', '凉皮', '窑鸡', '鲍鱼饭', '肯德基', '蹄花', '炒粉', '粥', '大盘鸡', '烤鸭', '便利店', '溏心蛋', '麻辣烫']
+    const personArr = ['米线', '小炒菜', '麻辣烫', '麻辣拌', '卤面', '粿条', '鱼粉', '碗杂面', '木桶饭', '凉面', '凉皮', '袁记', '煲仔饭', '粥', '披萨', '肯德基', '麦当劳', '炒粉', '花甲粉', '螺狮粉', '烧鸭饭', '湛江鸡', '莲藕汤', '肠粉', '轻食']
 
     // 2.1 随机数 数组的下标
     const random = Math.floor(Math.random() * personArr.length)
     // console.log(personArr[random])
+    // 显示当前时间
+    function updateTime () {
+      const now = new Date();
+      const timeStr = now.toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      document.getElementById('current-time').textContent = timeStr;
+    }
+
+    // 初始化时间并设置定时器
+    updateTime();
+    setInterval(updateTime, 1000);
+
     // 2.2 获取one 元素
     const one = document.querySelector('#one')
     one.innerHTML = personArr[random]
